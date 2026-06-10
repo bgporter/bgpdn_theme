@@ -23,8 +23,9 @@
       {% endif %}
       <span class="sep">·</span>
       <span>{{ article.locale_date }}</span>
-      {% if article.modified %}<span class="sep">·</span><span>updated {{ article.locale_modified }}</span>{% endif %}
-      {% if article.reading_time %}<span class="sep">·</span><span>~{{ article.reading_time }} min read</span>{% endif %}
+      {% if article.modified and article.modified.date() != article.date.date() %}<span class="sep">·</span><span>updated {{ article.locale_modified }}</span>{% endif %}
+      {% if article.stats %}<span class="sep">·</span><span>~{{ article.stats.read_mins }} min read</span><span class="sep">·</span><span>{{ '{:,}'.format(article.stats.wc) }} words</span>
+      {% else %}{% set _wc = article.content | striptags | wordcount %}<span class="sep">·</span><span>~{{ [(_wc / 200) | round(0, 'ceil') | int, 1] | max }} min read</span><span class="sep">·</span><span>{{ '{:,}'.format(_wc) }} words</span>{% endif %}
     </div>
   </header>
 

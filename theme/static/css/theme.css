@@ -206,6 +206,52 @@ main { padding: 38px 0 56px; }
 .content blockquote { margin: 1.4em 0; padding: 2px 0 2px 18px; border-left: 2px solid var(--accent-dim); color: var(--muted); }
 .content blockquote p:last-child { margin-bottom: 0; }
 .content hr { border: 0; border-top: 1px solid var(--border); margin: 2.2em 0; }
+
+/* ---------- callouts / admonitions ----------
+   Pelican's Markdown `admonition` extension emits:
+     <div class="admonition note">
+       <p class="admonition-title">Assumed Audience</p>
+       <p>…body…</p>
+     </div>
+   The 2nd class is the type word (note / aside / warning / tip / …);
+   the accent var keys off it. Default falls back to the blue accent. */
+.content .admonition {
+  --cal: var(--accent);
+  margin: 1.7em 0;
+  padding: 15px 18px;
+  background: color-mix(in srgb, var(--cal) 6%, var(--panel));
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cal);
+  border-radius: 8px;
+  font-size: 15.5px;
+  line-height: 1.62;
+}
+.content .admonition > :first-child { margin-top: 0; }
+.content .admonition > :last-child { margin-bottom: 0; }
+.content .admonition p { margin: 0 0 0.7em; }
+.content .admonition-title {
+  margin: 0 0 0.45em;
+  font-family: "Fira Code", ui-monospace, Menlo, monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cal);
+}
+/* title-only callout: don't keep trailing space */
+.content .admonition-title:last-child { margin-bottom: 0; }
+
+/* type accents (low-chroma, consistent with the theme) */
+.content .admonition.aside,
+.content .admonition.note    { --cal: var(--accent-dim); }
+.content .admonition.tip,
+.content .admonition.hint,
+.content .admonition.success { --cal: var(--diff-ins); }
+.content .admonition.warning,
+.content .admonition.caution,
+.content .admonition.attention { --cal: oklch(0.62 0.11 65); }
+.content .admonition.danger,
+.content .admonition.error   { --cal: var(--diff-del); }
 .content img { border-radius: 8px; }
 .content figure { margin: 1.6em 0; }
 .content figcaption { font-size: 13px; color: var(--faint); text-align: center; margin-top: 8px; }

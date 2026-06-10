@@ -9,7 +9,8 @@
     <div class="post-meta">
       <a class="cat" href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
       <span>{{ article.locale_date }}</span>
-      {% if article.reading_time %}<span>{{ article.reading_time }} min</span>{% endif %}
+      {% if article.stats %}<span>{{ article.stats.read_mins }} min</span><span>{{ '{:,}'.format(article.stats.wc) }} words</span>
+      {% else %}{% set _wc = article.content | striptags | wordcount %}<span>{{ [(_wc / 200) | round(0, 'ceil') | int, 1] | max }} min</span><span>{{ '{:,}'.format(_wc) }} words</span>{% endif %}
       {% if article.tags %}
       <span class="tags">
         {% for tag in article.tags %}<a href="{{ SITEURL }}/{{ tag.url }}">#{{ tag }}</a>{% endfor %}
