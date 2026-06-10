@@ -371,6 +371,40 @@ main { padding: 38px 0 56px; }
 .site-footer .foot-row { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; justify-content: space-between; }
 .site-footer .powered { font-family: "Fira Code", ui-monospace, Menlo, monospace; font-size: 12px; }
 
+/* footer social ("Find me") — mono text links, matches the meta vocabulary */
+.foot-social {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px;
+  padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--border);
+}
+.foot-social-label {
+  font-family: "Fira Code", ui-monospace, Menlo, monospace;
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--faint);
+}
+.foot-social-links { display: inline-flex; flex-wrap: wrap; gap: 8px 16px; }
+.foot-social-links a {
+  font-family: "Fira Code", ui-monospace, Menlo, monospace; font-size: 13px;
+  color: var(--muted); text-transform: capitalize;
+}
+.foot-social-links a:hover { color: var(--fg-strong); text-decoration: none; }
+
+/* ---------- share row (article footer) ---------- */
+.share {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px;
+  margin: 36px 0 4px; padding-top: 18px; border-top: 1px solid var(--border);
+}
+.share-label {
+  font-family: "Fira Code", ui-monospace, Menlo, monospace;
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--faint);
+}
+.share-links { display: inline-flex; flex-wrap: wrap; gap: 8px 16px; }
+.share-links a {
+  font-family: "Fira Code", ui-monospace, Menlo, monospace; font-size: 13px;
+  color: var(--accent);
+}
+.share-links a:hover { color: var(--fg-strong); text-decoration: none; }
+
 /* ---------- listing pages (archives / tags / categories) ---------- */
 .page-title { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; color: var(--fg-strong); margin: 0 0 6px; }
 .page-sub { color: var(--muted); margin: 0 0 26px; }

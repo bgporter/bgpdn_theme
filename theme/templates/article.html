@@ -33,6 +33,16 @@
     {{ article.content }}
   </div>
 
+  {% if article.share_post %}
+  {% set share_labels = {'twitter': 'X', 'hacker-news': 'Hacker News', 'google-plus': 'Google+', 'bluesky': 'Bluesky', 'linkedin': 'LinkedIn', 'mastodon': 'Mastodon', 'reddit': 'Reddit', 'email': 'Email', 'facebook': 'Facebook', 'diaspora': 'Diaspora'} %}
+  <nav class="share" aria-label="Share this post">
+    <span class="share-label">Share via</span>
+    <span class="share-links">
+      {% for key, url in article.share_post.items() %}<a href="{{ url }}"{% if key != 'email' %} target="_blank" rel="noopener"{% endif %}>{{ share_labels[key] | default(key | replace('-', ' ') | title) }}</a>{% endfor %}
+    </span>
+  </nav>
+  {% endif %}
+
   {% if article.related_posts %}
   <nav class="related" aria-label="Related posts" style="margin-top:40px">
     <div class="feed-head"><h1 style="font-size:18px">Related</h1></div>

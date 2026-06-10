@@ -72,11 +72,22 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container foot-row">
-      <span>{% block footer_left %}&copy; {{ SITENAME }}{% endblock %}</span>
-      <span class="powered">
-        {% if FEED_ALL_ATOM %}<a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}">feed</a> · {% endif %}built with <a href="https://getpelican.com/">Pelican</a>
-      </span>
+    <div class="container">
+      {% if SOCIAL %}
+      <div class="foot-social">
+        <span class="foot-social-label">Find me</span>
+        <span class="foot-social-links">
+          {% for name, link in SOCIAL %}<a href="{{ link }}" rel="me">{{ name }}</a>{% endfor %}
+          {% if FEED_ALL_ATOM %}<a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}">RSS</a>{% endif %}
+        </span>
+      </div>
+      {% endif %}
+      <div class="foot-row">
+        <span>{% block footer_left %}&copy; {{ SITENAME }}{% endblock %}</span>
+        <span class="powered">
+          {% if FEED_ALL_ATOM %}<a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}">feed</a> · {% endif %}built with <a href="https://getpelican.com/">Pelican</a>
+        </span>
+      </div>
     </div>
   </footer>
 
