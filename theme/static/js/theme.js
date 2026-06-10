@@ -109,9 +109,29 @@
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", enhanceCode);
-  } else {
-    enhanceCode();
+  /* ---------- wide tables: wrap for horizontal scroll ---------- */
+  function wrapTables() {
+    var tables = document.querySelectorAll(".content table");
+    tables.forEach(function (table) {
+      var parent = table.parentNode;
+      if (parent && parent.classList && parent.classList.contains("table-scroll")) return;
+      if (table.closest(".highlighttable, .codehilitetable")) return; // skip code line-number tables
+      var wrap = document.createElement("div");
+      wrap.className = "table-scroll";
+      parent.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    });
   }
+
+  /* ---------- changelog index: colorize +adds / -deletes ---------- */
+  /* The generator already wraps counts as
+     <span class="diff"><span class="diff-add">+1</span> <span class="diff-delete">-1</span></span>
+     so this is pure CSS (see theme.css) — no JS needed. */
+
+  function ready(fn) {
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
+    else fn();
+  }
+  ready(enhanceCode);
+  ready(wrapTables);
 })();

@@ -75,6 +75,24 @@ with the [`pelican-readtime`](https://github.com/JenkinsDev/pelican-readtime)
 plugin (or any plugin that sets `reading_time`). Without it, the field is hidden —
 nothing breaks.
 
+## Changelog / history pages
+
+If you publish page-history pages (slugs containing `changelog`, e.g.
+`site-changelog`, `now_changelog`) the theme styles them automatically:
+
+- The **site index** is a wide table — it gets zebra rows, monospace
+  date/word-count columns, and wraps in a horizontal-scroll container so it
+  never breaks the layout on narrow screens.
+- **Per-page history** renders each revision as a monospace timestamp heading
+  (with a divider), a muted "Changes (words)" line, and the diff itself.
+- Diffs are natural-language prose, so on `*changelog` pages the diff blocks
+  **soft-wrap** (instead of horizontal-scrolling like source code), and
+  `<del>` / `<ins>` markers are shown as struck-through red / highlighted green.
+
+No metadata needed — detection is by slug. Diff blocks come through as plain
+`<pre>` (or `<del>`/`<ins>` inline), all of which are now styled in both light
+and dark.
+
 ## Long-line code behavior
 
 - **Default:** horizontal scroll. The block keeps its exact shape; a soft fade
