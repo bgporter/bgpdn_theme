@@ -1,0 +1,28 @@
+{# ---- reusable post row for homepage + listing pages ---- #}
+{% macro post_row(article, number=None) %}
+<article class="post-row">
+  <div class="body">
+    {% if number is not none %}<div class="num">{{ '%02d' % number }}</div>{% endif %}
+    <h2><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h2>
+    {% if article.summary %}<p class="summary">{{ article.summary | striptags | truncate(160) }}</p>
+    {% elif article.subtitle %}<p class="summary">{{ article.subtitle }}</p>{% endif %}
+    <div class="post-meta">
+      <a class="cat" href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
+      <span>{{ article.locale_date }}</span>
+      {% if article.reading_time %}<span>{{ article.reading_time }} min</span>{% endif %}
+      {% if article.tags %}
+      <span class="tags">
+        {% for tag in article.tags %}<a href="{{ SITEURL }}/{{ tag.url }}">#{{ tag }}</a>{% endfor %}
+      </span>
+      {% endif %}
+    </div>
+  </div>
+  <div class="media">
+    {% if article.image %}
+    <a class="post-thumb" href="{{ SITEURL }}/{{ article.url }}"><img src="{{ SITEURL }}{{ article.image }}" alt="" loading="lazy" /></a>
+    {% else %}
+    <a class="post-thumb placeholder" href="{{ SITEURL }}/{{ article.url }}" aria-hidden="true"></a>
+    {% endif %}
+  </div>
+</article>
+{% endmacro %}

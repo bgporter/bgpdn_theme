@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% from "macros.html" import post_row %}
+{% block title %}{{ author }} · {{ SITENAME }}{% endblock %}
+
+{% block content %}
+  <div class="feed-head">
+    <h1>By {{ author }}</h1>
+  </div>
+  <div class="feed">
+    {% for article in articles %}
+      {{ post_row(article, number=loop.index) }}
+    {% endfor %}
+  </div>
+{% endblock %}

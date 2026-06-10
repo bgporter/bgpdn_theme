@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% from "macros.html" import post_row %}
+{% block title %}#{{ tag }} · {{ SITENAME }}{% endblock %}
+
+{% block content %}
+  <div class="feed-head">
+    <h1>Tagged · #{{ tag }}</h1>
+    <a href="{{ SITEURL }}/tags.html">All tags →</a>
+  </div>
+  <div class="feed">
+    {% for article in articles %}
+      {{ post_row(article, number=loop.index) }}
+    {% endfor %}
+  </div>
+{% endblock %}

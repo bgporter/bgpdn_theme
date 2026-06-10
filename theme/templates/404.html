@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Not found · {{ SITENAME }}{% endblock %}
+
+{% block content %}
+  <div style="padding:48px 0;max-width:60ch">
+    <h1 class="page-title" style="font-size:32px">404</h1>
+    <p class="page-sub" style="font-size:18px">That page wandered off. It may have moved, or never existed.</p>
+    <p><a href="{{ SITEURL }}/">← Back home</a> · <a href="{{ SITEURL }}/archives.html">Browse the archives</a></p>
+  </div>
+{% endblock %}

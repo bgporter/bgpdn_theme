@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "macros.html" import post_row %}
+
+{% block content %}
+  <div class="feed-head">
+    <h1>{% if articles_page and articles_page.number > 1 %}Posts · page {{ articles_page.number }}{% else %}Recent Posts{% endif %}</h1>
+    <a href="{{ SITEURL }}/archives.html">All posts →</a>
+  </div>
+
+  <div class="feed">
+    {% for article in articles_page.object_list %}
+      {{ post_row(article, number=(loop.index + (articles_page.number - 1) * articles_paginator.per_page)) }}
+    {% endfor %}
+  </div>
+
+  {% if articles_paginator.num_pages > 1 %}
+  <nav class="pagination" aria-label="Pagination">
+    {% if articles_previous_page %}
+      <a href="{{ SITEURL }}/{{ articles_previous_page.url }}">← Newer</a>
+    {% else %}<span class="disabled">← Newer</span>{% endif %}
+    <span class="disabled">{{ articles_page.number }} / {{ articles_paginator.num_pages }}</span>
+    {% if articles_next_page %}
+      <a href="{{ SITEURL }}/{{ articles_next_page.url }}">Older →</a>
+    {% else %}<span class="disabled">Older →</span>{% endif %}
+  </nav>
+  {% endif %}
+{% endblock %}

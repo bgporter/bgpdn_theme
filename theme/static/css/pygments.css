@@ -1,0 +1,148 @@
+/* ============================================================
+   pygments.css — muted, low-contrast syntax for bgporter.net
+   Token colors come from CSS variables (theme.css), so this one
+   stylesheet adapts to light/dark automatically.
+   Pelican/Markdown CodeHilite emits: <div class="highlight"><pre>…
+   ============================================================ */
+
+/* ---- code block container ---- */
+.highlight, .codehilite {
+  position: relative;
+  margin: 1.5em 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+/* optional language / filename label:
+   add  :::cpp  fences or set a data-lang via a plugin; styled if present */
+.highlight::before, .codehilite::before {
+  content: attr(data-lang);
+  display: block;
+  font-family: "Fira Code", ui-monospace, Menlo, monospace;
+  font-size: 11.5px; letter-spacing: 0.02em;
+  color: var(--faint);
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-2);
+}
+.highlight:not([data-lang])::before,
+.codehilite:not([data-lang])::before { display: none; }
+
+/* ---- DEFAULT: horizontal scroll (long lines never break layout) ---- */
+.highlight pre, .codehilite pre {
+  margin: 0;
+  padding: 15px 16px;
+  overflow-x: auto;
+  white-space: pre;
+  font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--tk-txt);
+  tab-size: 4;
+  font-variant-ligatures: contextual common-ligatures;
+  font-feature-settings: "calt" 1, "liga" 1;
+}
+/* soft fade on the right edge to hint at horizontal overflow */
+.highlight > .scroll-fade, .codehilite > .scroll-fade {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 40px;
+  pointer-events: none; opacity: 0; transition: opacity .15s ease;
+  background: linear-gradient(90deg, transparent, var(--panel));
+}
+.highlight.is-overflow > .scroll-fade,
+.codehilite.is-overflow > .scroll-fade { opacity: 1; }
+.highlight.is-scrolled-end > .scroll-fade,
+.codehilite.is-scrolled-end > .scroll-fade { opacity: 0; }
+
+/* scrollbar */
+.highlight pre::-webkit-scrollbar, .codehilite pre::-webkit-scrollbar { height: 9px; }
+.highlight pre::-webkit-scrollbar-thumb, .codehilite pre::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 5px; }
+.highlight pre::-webkit-scrollbar-thumb:hover, .codehilite pre::-webkit-scrollbar-thumb:hover { background: var(--faint); }
+.highlight pre::-webkit-scrollbar-track, .codehilite pre::-webkit-scrollbar-track { background: transparent; }
+
+/* ---- OPT-IN: soft wrap (add class "wrap" to the block) ---- */
+.highlight.wrap pre, .codehilite.wrap pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: hidden;
+  padding-left: 30px;
+  text-indent: -15px;     /* hanging indent for wrapped continuation lines */
+}
+.highlight.wrap > .scroll-fade, .codehilite.wrap > .scroll-fade { display: none; }
+
+/* ---- copy button ---- */
+.code-copy {
+  position: absolute; top: 6px; right: 8px;
+  font-family: "Fira Code", ui-monospace, Menlo, monospace; font-size: 11px;
+  color: var(--faint); background: var(--panel-2);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 3px 8px; cursor: pointer; opacity: 0; transition: opacity .12s ease;
+}
+.highlight:hover .code-copy, .codehilite:hover .code-copy { opacity: 1; }
+.code-copy:hover { color: var(--fg-strong); border-color: var(--border-2); }
+.code-copy.copied { color: var(--tk-t); }
+@media (hover: none) { .code-copy { opacity: 1; } }
+/* keep copy button clear of an optional language label */
+.highlight[data-lang] .code-copy, .codehilite[data-lang] .code-copy { top: 4px; }
+
+/* line-number table (when CodeHilite linenums are on) */
+.highlighttable, .codehilitetable { width: 100%; border-collapse: collapse; }
+.highlighttable td, .codehilitetable td { padding: 0; border: 0; vertical-align: top; }
+.highlighttable .linenos, .codehilitetable .linenos { width: 1%; white-space: nowrap; user-select: none; }
+.linenos pre { color: var(--faint); padding-right: 6px; text-align: right; }
+
+/* ============================================================
+   token colors — muted / low-contrast
+   ============================================================ */
+.highlight .hll, .codehilite .hll { background: color-mix(in srgb, var(--accent) 14%, transparent); display: block; }
+
+/* comments */
+.highlight .c, .highlight .ch, .highlight .cm, .highlight .c1, .highlight .cs,
+.codehilite .c, .codehilite .ch, .codehilite .cm, .codehilite .c1, .codehilite .cs {
+  color: var(--tk-c); font-style: italic;
+}
+/* preprocessor */
+.highlight .cp, .highlight .cpf, .codehilite .cp, .codehilite .cpf { color: var(--tk-c); }
+
+/* keywords */
+.highlight .k, .highlight .kc, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr,
+.codehilite .k, .codehilite .kc, .codehilite .kd, .codehilite .kn, .codehilite .kp, .codehilite .kr {
+  color: var(--tk-k);
+}
+/* types */
+.highlight .kt, .highlight .nc, .highlight .nn, .highlight .nb, .highlight .bp,
+.codehilite .kt, .codehilite .nc, .codehilite .nn, .codehilite .nb, .codehilite .bp {
+  color: var(--tk-t);
+}
+/* functions / decorators */
+.highlight .nf, .highlight .fm, .highlight .nd,
+.codehilite .nf, .codehilite .fm, .codehilite .nd { color: var(--tk-f); }
+/* tags / attributes (html/xml) */
+.highlight .nt, .codehilite .nt { color: var(--tk-k); }
+.highlight .na, .codehilite .na { color: var(--tk-f); }
+/* constants / vars */
+.highlight .no, .highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi,
+.codehilite .no, .codehilite .nv, .codehilite .vc, .codehilite .vg, .codehilite .vi {
+  color: var(--tk-txt);
+}
+
+/* strings */
+.highlight .s, .highlight .s1, .highlight .s2, .highlight .sb, .highlight .sc, .highlight .sd,
+.highlight .se, .highlight .sh, .highlight .si, .highlight .sx, .highlight .sr, .highlight .ss, .highlight .dl,
+.codehilite .s, .codehilite .s1, .codehilite .s2, .codehilite .sb, .codehilite .sc, .codehilite .sd,
+.codehilite .se, .codehilite .sh, .codehilite .si, .codehilite .sx, .codehilite .sr, .codehilite .ss, .codehilite .dl {
+  color: var(--tk-s);
+}
+/* numbers */
+.highlight .m, .highlight .mi, .highlight .mf, .highlight .mh, .highlight .mo, .highlight .il,
+.codehilite .m, .codehilite .mi, .codehilite .mf, .codehilite .mh, .codehilite .mo, .codehilite .il {
+  color: var(--tk-n);
+}
+/* operators / punctuation */
+.highlight .o, .highlight .ow, .highlight .p,
+.codehilite .o, .codehilite .ow, .codehilite .p { color: var(--tk-o); }
+
+/* diff / errors kept subtle */
+.highlight .gd, .codehilite .gd { color: #b5675f; }
+.highlight .gi, .codehilite .gi { color: #5f7a52; }
+.highlight .err, .codehilite .err { color: inherit; text-decoration: underline wavy color-mix(in srgb, #c0392b 60%, transparent); }

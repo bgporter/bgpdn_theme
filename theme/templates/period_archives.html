@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ period | reverse | join(' ') }} · {{ SITENAME }}{% endblock %}
+
+{% block content %}
+  <h1 class="page-title">
+    {% if period[2] %}{{ period[1] }} {{ period[2] }}, {{ period[0] }}
+    {% elif period[1] %}{{ period[1] }} {{ period[0] }}
+    {% else %}{{ period[0] }}{% endif %}
+  </h1>
+  <p class="page-sub">{{ articles | length }} posts.</p>
+  <div class="archive-list">
+    {% for article in articles %}
+    <div class="archive-row">
+      <span class="date">{{ article.locale_date }}</span>
+      <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Categories · {{ SITENAME }}{% endblock %}
+
+{% block content %}
+  <h1 class="page-title">Categories</h1>
+  <p class="page-sub">{{ categories | length }} categories.</p>
+  <div class="taxonomy">
+    {% for category, articles in categories %}
+    <a href="{{ SITEURL }}/{{ category.url }}">{{ category }} <span class="count">{{ articles | length }}</span></a>
+    {% endfor %}
+  </div>
+{% endblock %}
