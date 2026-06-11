@@ -346,8 +346,10 @@ main { padding: 38px 0 56px; }
   font-variant-ligatures: contextual common-ligatures;
 }
 .content pre code { background: none; border: 0; padding: 0; font-size: inherit; color: inherit; }
-/* a bare pre that opts into soft-wrap (changelog diffs read better wrapped) */
-.content pre.wrap { white-space: pre-wrap; word-break: break-word; padding-left: 30px; text-indent: -15px; }
+/* soft-wrap: opt-in via .wrap, and ALWAYS for .diff blocks.
+   <pre class="diff"> is word-diffed prose (never code), so it should wrap
+   by default everywhere — not only inside a .content.changelog wrapper. */
+.content pre.wrap, .content pre.diff { white-space: pre-wrap; word-break: break-word; padding-left: 30px; text-indent: -15px; }
 
 /* ---------- diff markers (changelog) ---------- */
 .content del, .content ins {
