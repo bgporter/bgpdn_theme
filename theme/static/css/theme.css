@@ -369,6 +369,14 @@ main { padding: 38px 0 56px; }
   color: var(--diff-ins);
   background: color-mix(in srgb, var(--diff-ins) 16%, transparent);
 }
+/* inside a monospace diff block the pill padding/rounding knocks the
+   highlight off the character grid (a word abutting prior text looks shoved
+   right). Tighten to the glyphs so the shading aligns to the mono cells. */
+.content pre.diff del, .content pre.diff ins,
+.content.changelog pre del, .content.changelog pre ins {
+  padding: 0;
+  border-radius: 2px;
+}
 
 /* ---------- changelog pages (per-page history + diffs) ---------- */
 /* each revision = an <h2> timestamp + a "Changes (words)" line + a diff block.
