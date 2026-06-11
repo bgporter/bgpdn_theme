@@ -34,18 +34,18 @@
   </div>
 
   {% set _url = SITEURL ~ '/' ~ article.url %}
-  {% set _title = article.title | striptags %}
-  {% set _summary = article.subtitle | default(article.summary | striptags | truncate(160), true) %}
-  {% set _tags = article.tags | join(',') %}
+  {% set _stitle = article.title | striptags %}
+  {% if article.subtitle %}{% set _stitle = _stitle ~ ' ' ~ (article.subtitle | striptags) %}{% endif %}
+  {% set _summary = (article.summary | default('', true)) | striptags | trim %}
   <nav class="share" aria-label="Share this post">
     <span class="share-label">Share via</span>
     <span class="share-links">
-      <a href="https://bsky.app/intent/compose?text={{ (_title ~ ' ' ~ _url) | urlencode }}" target="_blank" rel="noopener">Bluesky</a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ _url | urlencode }}&amp;title={{ _title | urlencode }}&amp;summary={{ _summary | urlencode }}&amp;source={{ _url | urlencode }}" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://toot.kytta.dev/?text={{ (_title ~ '\n' ~ _url) | urlencode }}" target="_blank" rel="noopener">Mastodon</a>
-      <a href="mailto:?subject={{ _title | urlencode }}&amp;body={{ _url | urlencode }}">Email</a>
-      <a href="https://www.reddit.com/submit?url={{ _url | urlencode }}&amp;title={{ _title | urlencode }}" target="_blank" rel="noopener">Reddit</a>
-      <a href="https://twitter.com/intent/tweet?text={{ _title | urlencode }}&amp;url={{ _url | urlencode }}{% if _tags %}&amp;hashtags={{ _tags | urlencode }}{% endif %}" target="_blank" rel="noopener">X</a>
+      <a href="https://bsky.app/intent/compose?text={{ (_stitle ~ ' ' ~ _url) | urlencode }}" target="_blank" rel="nofollow noopener noreferrer" title="Share on Bluesky">Bluesky</a>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ _url | urlencode }}&amp;title={{ _stitle | urlencode }}&amp;summary={{ _summary | urlencode }}&amp;source={{ _url | urlencode }}" target="_blank" rel="nofollow noopener noreferrer" title="Share on LinkedIn">LinkedIn</a>
+      <a href="https://toot.kytta.dev/?text={{ (_stitle ~ '\r\n' ~ _url ~ '\r\n') | urlencode }}{% for t in article.tags %}%23{{ t | urlencode }}{% if not loop.last %} {% endif %}{% endfor %}" target="_blank" rel="nofollow noopener noreferrer" title="Share on Mastodon">Mastodon</a>
+      <a href="mailto:?subject={{ _stitle | urlencode }}&amp;body={{ _url | urlencode }}" title="Share via Email">Email</a>
+      <a href="https://www.reddit.com/submit?url={{ _url | urlencode }}&amp;title={{ _stitle | urlencode }}" target="_blank" rel="nofollow noopener noreferrer" title="Share on Reddit">Reddit</a>
+      <a href="https://twitter.com/intent/tweet?text={{ _stitle | urlencode }}&amp;url={{ _url | urlencode }}{% if article.tags %}&amp;hashtags={% for t in article.tags %}{{ t | urlencode }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}" target="_blank" rel="nofollow noopener noreferrer" title="Share on X">X</a>
     </span>
   </nav>
 
