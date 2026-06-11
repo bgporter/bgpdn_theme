@@ -10,7 +10,8 @@
 {% endblock %}
 
 {% block content %}
-<article>
+{% set is_changelog = article.slug and 'changelog' in article.slug %}
+<article{% if is_changelog %} class="changelog-page"{% endif %}>
   <header class="article-header">
     <h1>{{ article.title }}</h1>
     {% if article.subtitle %}<p class="subtitle">{{ article.subtitle }}</p>{% endif %}
@@ -29,7 +30,7 @@
     </div>
   </header>
 
-  <div class="content">
+  <div class="content{% if is_changelog %} changelog{% endif %}">
     {{ article.content }}
   </div>
 
