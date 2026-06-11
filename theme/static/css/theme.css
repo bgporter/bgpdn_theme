@@ -325,6 +325,18 @@ main { padding: 38px 0 56px; }
   text-decoration: line-through;
   text-decoration-color: color-mix(in srgb, var(--diff-del) 55%, transparent);
 }
+/* The SAME .diff-add / .diff-delete classes are reused for inline word-diffs
+   inside <pre class="diff"> bodies. There the inline-block pill + 5px padding
+   breaks out of the monospace flow (words split, highlights drift onto the
+   wrong line). Inside a diff pre, render them as plain inline text so the
+   shading hugs the glyphs and stays on the character grid. */
+.content pre.diff .diff-add, .content pre.diff .diff-delete,
+.content.changelog pre .diff-add, .content.changelog pre .diff-delete {
+  display: inline;
+  padding: 0;
+  border-radius: 2px;
+  font-weight: inherit;
+}
 
 /* ---------- code blocks ---------- */
 /* Pygments emits <div class="highlight"><pre> (styled in pygments.css).

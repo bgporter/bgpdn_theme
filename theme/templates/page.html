@@ -3,7 +3,10 @@
 {% block title %}{{ page.title }} · {{ SITENAME }}{% endblock %}
 
 {% block content %}
-{% set is_changelog = page.slug and 'changelog' in page.slug %}
+{% set is_changelog = page.changelog
+   or (page.slug and 'changelog' in page.slug)
+   or (page.url and 'changelog' in page.url)
+   or (page.save_as and 'changelog' in page.save_as) %}
 <article{% if is_changelog %} class="changelog-page"{% endif %}>
   <header class="article-header">
     <h1>{{ page.title }}</h1>

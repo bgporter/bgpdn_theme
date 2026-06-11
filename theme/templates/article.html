@@ -10,7 +10,14 @@
 {% endblock %}
 
 {% block content %}
-{% set is_changelog = article.slug and 'changelog' in article.slug %}
+{# changelog history pages: the "_changelog" marker may live in the slug, the
+   output url/save_as, or be set explicitly via a `changelog: true` metadata
+   field. Check all of them so detection doesn't depend on how the slug was
+   derived (Pelican often builds slug from the title, with no "changelog"). #}
+{% set is_changelog = article.changelog
+   or (article.slug and 'changelog' in article.slug)
+   or (article.url and 'changelog' in article.url)
+   or (article.save_as and 'changelog' in article.save_as) %}
 <article{% if is_changelog %} class="changelog-page"{% endif %}>
   <header class="article-header">
     <h1>{{ article.title }}</h1>
