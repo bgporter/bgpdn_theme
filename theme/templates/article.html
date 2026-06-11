@@ -33,9 +33,12 @@
     {{ article.content }}
   </div>
 
-  {% set _url = SITEURL ~ '/' ~ article.url %}
+  {# share links need an ABSOLUTE url even in local builds where SITEURL is ''.
+     Use SITEURL when it's a full URL, else fall back to the canonical domain. #}
+  {% set _base = SITEURL if (SITEURL and '://' in SITEURL) else 'https://bgporter.net' %}
+  {% set _url = _base ~ '/' ~ article.url %}
   {% set _stitle = article.title | striptags %}
-  {% if article.subtitle %}{% set _stitle = _stitle ~ ' ' ~ (article.subtitle | striptags) %}{% endif %}
+  {% if article.subtitle %}{% set _stitle = _stitle ~ ': ' ~ (article.subtitle | striptags) %}{% endif %}
   {% set _summary = (article.summary | default('', true)) | striptags | trim %}
   <nav class="share" aria-label="Share this post">
     <span class="share-label">Share via</span>

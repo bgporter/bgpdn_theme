@@ -253,8 +253,29 @@ main { padding: 38px 0 56px; }
 .content .admonition.danger,
 .content .admonition.error   { --cal: var(--diff-del); }
 .content img { border-radius: 8px; }
-.content figure { margin: 1.6em 0; }
-.content figcaption { font-size: 13px; color: var(--faint); text-align: center; margin-top: 8px; }
+.content figure { margin: 1.9em 0; text-align: center; }
+.content figure img { display: block; margin: 0 auto; }
+.content figcaption {
+  display: block;
+  max-width: 56ch;
+  margin: 11px auto 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: center;
+  text-wrap: pretty;
+}
+/* short centered rule above the caption — makes it clearly a caption, not body copy */
+.content figcaption::before {
+  content: "";
+  display: block;
+  width: 26px;
+  height: 1px;
+  margin: 0 auto 9px;
+  background: var(--border-2);
+}
+.content figcaption a { color: var(--link); }
+.content figcaption code { font-size: 0.85em; }
 /* tables — markdown tables, incl. the wide changelog index.
    theme.js wraps each in <div class="table-scroll"> so long tables
    scroll horizontally instead of breaking the layout. */

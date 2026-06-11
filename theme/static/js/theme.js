@@ -128,10 +128,63 @@
      <span class="diff"><span class="diff-add">+1</span> <span class="diff-delete">-1</span></span>
      so this is pure CSS (see theme.css) — no JS needed. */
 
+  /* ---------- image captions: promote to <figure><figcaption> ----------
+     Pelican's Markdown renders a captioned image as either
+       <p><img …><br><em>caption</em></p>      (no blank line), or
+       <p><img …></p><p><em>caption</em></p>   (blank line between),
+     or a bare <img title="caption">. None of these read as a caption —
+     they look like stray italic text. Normalize them to a real figure so
+     the caption is styled (centered, muted, with a divider rule). */
+  function figurify() {
+    var content = document.querySelector(".content");
+    if (!content) return;
+    var paras = Array.prototype.slice.call(content.querySelectorAll(":scope > p"));
+    paras.forEach(function (p) {
+      var img = p.querySelector(":scope > img");
+      if (!img) return;
+
+      // bail if this is an inline image inside a sentence (text besides a caption)
+      var em = p.querySelector(":scope > em:last-child");
+      var residual = (p.textContent || "").replace(em ? em.textContent : "", "").trim();
+      if (residual !== "") return;
+
+      var captionHTML = null;
+      if (em) {
+        // pattern A: caption shares the image's paragraph
+        captionHTML = em.innerHTML;
+      } else {
+        // pattern B: next paragraph is italic-only
+        var next = p.nextElementSibling;
+        if (next && next.tagName === "P") {
+          var nem = next.querySelector(":scope > em");
+          if (nem && next.textContent.trim() === nem.textContent.trim()) {
+            captionHTML = nem.innerHTML;
+            next.remove();
+          }
+        }
+        // pattern C: title attribute
+        if (!captionHTML && img.getAttribute("title")) {
+          captionHTML = img.getAttribute("title");
+          img.removeAttribute("title");
+        }
+      }
+
+      var fig = document.createElement("figure");
+      fig.appendChild(img); // moves the node, preserving its attributes
+      if (captionHTML) {
+        var fc = document.createElement("figcaption");
+        fc.innerHTML = captionHTML;
+        fig.appendChild(fc);
+      }
+      p.replaceWith(fig);
+    });
+  }
+
   function ready(fn) {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
     else fn();
   }
   ready(enhanceCode);
   ready(wrapTables);
+  ready(figurify);
 })();
