@@ -75,6 +75,15 @@ with the [`pelican-readtime`](https://github.com/JenkinsDev/pelican-readtime)
 plugin (or any plugin that sets `reading_time`). Without it, the field is hidden —
 nothing breaks.
 
+## Image captions
+
+Pelican emits a captioned image as `<p class="img-caption"><img><br>caption</p>`.
+`theme.js` promotes that to a real `<figure><figcaption>` — centered, muted, with
+a short divider rule so the caption clearly reads as a caption, not stray text.
+It also handles `<em>`-wrapped captions, `![alt](img "caption")` titles, and
+linked images. `theme.css` styles the raw `p.img-caption` form too, so captions
+still look right with JS disabled.
+
 ## Changelog / history pages
 
 If you publish page-history pages (slugs containing `changelog`, e.g.

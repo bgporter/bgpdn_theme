@@ -276,6 +276,21 @@ main { padding: 38px 0 56px; }
 }
 .content figcaption a { color: var(--link); }
 .content figcaption code { font-size: 0.85em; }
+/* fallback: Pelican emits <p class="img-caption"><img><br>caption text</p>.
+   theme.js promotes it to a <figure>, but style the raw form too (no-JS / pre-JS). */
+.content p.img-caption {
+  text-align: center;
+  margin: 1.9em 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.content p.img-caption img {
+  display: block;
+  margin: 0 auto 11px;
+  font-size: 17px;
+}
 /* tables — markdown tables, incl. the wide changelog index.
    theme.js wraps each in <div class="table-scroll"> so long tables
    scroll horizontally instead of breaking the layout. */

@@ -129,53 +129,59 @@
      so this is pure CSS (see theme.css) — no JS needed. */
 
   /* ---------- image captions: promote to <figure><figcaption> ----------
-     Pelican's Markdown renders a captioned image as either
-       <p><img …><br><em>caption</em></p>      (no blank line), or
-       <p><img …></p><p><em>caption</em></p>   (blank line between),
-     or a bare <img title="caption">. None of these read as a caption —
-     they look like stray italic text. Normalize them to a real figure so
-     the caption is styled (centered, muted, with a divider rule). */
+     Pelican renders a captioned image as
+       <p class="img-caption"><img …><br>caption text</p>
+     (the caption is bare text after the <br>, not wrapped in anything),
+     and sometimes <p><img …><em>caption</em></p> or <img title="caption">.
+     A bare <p> like that reads as stray text, so normalize all of these to
+     a real <figure><figcaption> (centered, muted, divider rule). */
   function figurify() {
     var content = document.querySelector(".content");
     if (!content) return;
     var paras = Array.prototype.slice.call(content.querySelectorAll(":scope > p"));
     paras.forEach(function (p) {
-      var img = p.querySelector(":scope > img");
+      var img = p.querySelector(":scope > img, :scope > a > img");
       if (!img) return;
+      // the moveable block: the <img>, or its wrapping <a> if it's linked
+      var imgBlock = (img.parentElement === p) ? img : img.parentElement;
 
-      // bail if this is an inline image inside a sentence (text besides a caption)
-      var em = p.querySelector(":scope > em:last-child");
-      var residual = (p.textContent || "").replace(em ? em.textContent : "", "").trim();
-      if (residual !== "") return;
+      var kids = Array.prototype.slice.call(p.childNodes);
 
-      var captionHTML = null;
-      if (em) {
-        // pattern A: caption shares the image's paragraph
-        captionHTML = em.innerHTML;
-      } else {
-        // pattern B: next paragraph is italic-only
-        var next = p.nextElementSibling;
-        if (next && next.tagName === "P") {
-          var nem = next.querySelector(":scope > em");
-          if (nem && next.textContent.trim() === nem.textContent.trim()) {
-            captionHTML = nem.innerHTML;
-            next.remove();
-          }
-        }
-        // pattern C: title attribute
-        if (!captionHTML && img.getAttribute("title")) {
-          captionHTML = img.getAttribute("title");
-          img.removeAttribute("title");
-        }
+      // bail on inline images sitting mid-sentence (real content precedes the image)
+      var before = "";
+      for (var i = 0; i < kids.length && kids[i] !== imgBlock; i++) before += kids[i].textContent || "";
+      if (before.trim() !== "") return;
+
+      var marked = p.classList.contains("img-caption");
+
+      // caption = everything after the image, minus one separating <br> + leading space
+      var fc = document.createElement("figcaption");
+      var hasCaption = false, seen = false, skippedBr = false;
+      kids.forEach(function (node) {
+        if (node === imgBlock) { seen = true; return; }
+        if (!seen) return;
+        if (!skippedBr && node.nodeName === "BR") { skippedBr = true; return; }
+        if (node.nodeType === 3 && !node.textContent.trim() && !hasCaption) return;
+        fc.appendChild(node.cloneNode(true));
+        if (node.nodeType === 1 || (node.textContent && node.textContent.trim())) hasCaption = true;
+      });
+
+      // only trust trailing text as a caption when the paragraph is marked or it's emphasized
+      if (hasCaption && !marked && !fc.querySelector("em, i, b, strong, code")) hasCaption = false;
+
+      // title-attribute caption
+      if (!hasCaption && img.getAttribute("title")) {
+        fc.textContent = img.getAttribute("title");
+        img.removeAttribute("title");
+        hasCaption = true;
       }
+
+      // if there's leftover text we won't show as a caption, leave the paragraph alone
+      if (!hasCaption && !marked && (p.textContent || "").trim() !== "") return;
 
       var fig = document.createElement("figure");
-      fig.appendChild(img); // moves the node, preserving its attributes
-      if (captionHTML) {
-        var fc = document.createElement("figcaption");
-        fc.innerHTML = captionHTML;
-        fig.appendChild(fc);
-      }
+      fig.appendChild(imgBlock); // moves the node (keeps attrs/listeners)
+      if (hasCaption) fig.appendChild(fc);
       p.replaceWith(fig);
     });
   }
