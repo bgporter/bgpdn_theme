@@ -23,6 +23,10 @@
     <h1>{{ article.title }}</h1>
     {% if article.subtitle %}<p class="subtitle">{{ article.subtitle }}</p>{% endif %}
     <div class="article-meta">
+      {% if article.series %}
+      <a class="series-tag" href="{{ SITEURL }}/{{ article.series.all[0].url }}">{{ article.series.name }} · {{ article.series.index }}/{{ article.series.all | length }}</a>
+      <span class="sep">·</span>
+      {% endif %}
       <a class="cat" href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
       {% if article.tags %}
       <span class="tags">
@@ -40,6 +44,32 @@
   <div class="content{% if is_changelog %} changelog{% endif %}">
     {{ article.content }}
   </div>
+
+  {% if article.series %}
+  <nav class="series-nav" aria-label="Series navigation">
+    <div class="feed-head"><h1 style="font-size:18px">Part of the series: <a href="{{ SITEURL }}/{{ article.series.all[0].url }}">{{ article.series.name }}</a></h1></div>
+    <div class="series-pager">
+      {% if article.series.previous %}
+        <a href="{{ SITEURL }}/{{ article.series.previous.url }}">← {{ article.series.previous.title }}</a>
+      {% else %}<span class="disabled">← Start of series</span>{% endif %}
+      <span class="count">{{ article.series.index }} / {{ article.series.all | length }}</span>
+      {% if article.series.next %}
+        <a href="{{ SITEURL }}/{{ article.series.next.url }}">{{ article.series.next.title }} →</a>
+      {% else %}<span class="disabled">End of series →</span>{% endif %}
+    </div>
+    <details class="series-list">
+      <summary>All {{ article.series.all | length }} parts</summary>
+      <div class="archive-list">
+        {% for part in article.series.all %}
+        <div class="archive-row">
+          <span class="date">{{ part.locale_date }}</span>
+          <a href="{{ SITEURL }}/{{ part.url }}"{% if part == article %} class="active"{% endif %}>{{ part.title }}</a>
+        </div>
+        {% endfor %}
+      </div>
+    </details>
+  </nav>
+  {% endif %}
 
   {# share links need an ABSOLUTE url even in local builds where SITEURL is ''.
      Use SITEURL when it's a full URL, else fall back to the canonical domain. #}

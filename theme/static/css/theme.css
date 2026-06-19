@@ -186,6 +186,7 @@ main { padding: 38px 0 56px; }
 .article-meta .tags { display: inline-flex; flex-wrap: wrap; gap: 8px; }
 .article-meta .tags a { color: var(--muted); }
 .article-meta .sep { color: var(--border-2); }
+.article-meta .series-tag { color: var(--accent); }
 
 .featured { margin: 0 0 26px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
 .featured img { width: 100%; display: block; }
@@ -453,6 +454,22 @@ main { padding: 38px 0 56px; }
 }
 .foot-social-links a:hover { color: var(--fg-strong); text-decoration: none; }
 
+/* ---------- series navigation (article) ---------- */
+.series-nav { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border); }
+.series-pager {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  font-family: "Fira Code", ui-monospace, Menlo, monospace; font-size: 13px; margin-bottom: 6px;
+}
+.series-pager a { color: var(--accent); }
+.series-pager .disabled, .series-pager .count { color: var(--faint); }
+.series-list summary {
+  cursor: pointer; font-family: "Fira Code", ui-monospace, Menlo, monospace;
+  font-size: 12.5px; color: var(--muted); padding: 6px 0;
+}
+.series-list summary:hover { color: var(--fg-strong); }
+.series-list .archive-list { margin-top: 4px; }
+.archive-row a.active { font-weight: 600; }
+
 /* ---------- share row (article footer) ---------- */
 .share {
   display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px;
@@ -490,4 +507,5 @@ main { padding: 38px 0 56px; }
 @media (max-width: 560px) {
   body { font-size: 16px; }
   .archive-row { grid-template-columns: 1fr; gap: 2px; }
+  .series-pager { flex-direction: column; align-items: flex-start; gap: 4px; }
 }
