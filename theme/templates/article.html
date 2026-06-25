@@ -7,6 +7,7 @@
   <meta property="og:type" content="article" />
   <meta property="og:url" content="{{ SITEURL }}/{{ article.url }}" />
   {% if article.image %}<meta property="og:image" content="{{ SITEURL }}{{ article.image }}" />{% endif %}
+  {% if article.aturi %}<link rel="site.standard.document" href="{{ article.aturi }}" />{% endif %}
 {% endblock %}
 
 {% block content %}
