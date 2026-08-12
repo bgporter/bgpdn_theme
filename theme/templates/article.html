@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}{{ article.title }} · {{ SITENAME }}{% endblock %}
+{% block title %}{{ article.title | striptags }} · {{ SITENAME }}{% endblock %}
 {% block description %}{{ article.summary | striptags | truncate(160) }}{% endblock %}
 {% block meta %}
-  <meta property="og:title" content="{{ article.title }}" />
+  <meta property="og:title" content="{{ article.title | striptags }}" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="{{ SITEURL }}/{{ article.url }}" />
   {% if article.image %}<meta property="og:image" content="{{ SITEURL }}{{ article.image }}" />{% endif %}
