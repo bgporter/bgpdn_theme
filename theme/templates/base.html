@@ -49,14 +49,21 @@
             <a href="{{ link }}">{{ title }}</a>
           {% endfor %}
         {% endif %}
+        {# pages are sorted by PAGE_ORDER_BY = 'order'; the first page (About)
+           renders ahead of Categories/Tags/Archives, the rest after #}
         {% if DISPLAY_PAGES_ON_MENU %}
-          {% for p in pages %}
+          {% for p in pages[:1] %}
             <a href="{{ SITEURL }}/{{ p.url }}"{% if p == page %} class="active"{% endif %}>{{ p.title }}</a>
           {% endfor %}
         {% endif %}
         <a href="{{ SITEURL }}/categories.html">Categories</a>
         <a href="{{ SITEURL }}/tags.html">Tags</a>
         <a href="{{ SITEURL }}/archives.html">Archives</a>
+        {% if DISPLAY_PAGES_ON_MENU %}
+          {% for p in pages[1:] %}
+            <a href="{{ SITEURL }}/{{ p.url }}"{% if p == page %} class="active"{% endif %}>{{ p.title }}</a>
+          {% endfor %}
+        {% endif %}
         <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" title="Toggle theme">
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
           <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
